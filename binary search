@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std; 
+
+void   binarysearch(int arr[] , int n, int target){
+    
+    int left =0, right =n-1;
+    
+    while(left <= right){
+        int mid = left+(right-left)/2;
+        
+        if(target == arr[mid]){
+            cout <<mid;
+            return;
+        }
+        
+        else if (target>arr[mid]){
+            left  = mid+1;
+        }
+        
+        else{//(target < arr[mid])
+            right = mid-1;
+        }
+        
+           
+            
+        
+    }
+            cout <<"target not present"<<endl;
+}
+
+int main()
+{
+    int n=5;
+    int arr[n] = {3,4,5,6,7};
+    
+    
+    int target = 9;
+    binarysearch(arr,n,target);
+    return 0;
+}
