@@ -1,0 +1,574 @@
+Single File Programming Question
+Problem Statement
+
+
+
+Rishi is working on a program that manages a hash table to store a set of integer keys. He wants to implement a hash table of fixed size (10) and has asked for your help to develop the code.
+
+
+
+Your task is to assist him in implementing this functionality with collision resolution and provide the first and last key values, along with their respective indices, in the hash table.
+
+Input format :
+The first line of input consists of an integer, N, denoting the number of keys to be inserted into the hash table.
+
+The second line of input consists of a space-separated integer, representing the keys to be inserted.
+
+Output format :
+The output displays two lines, each containing the index and value of the first and last keys in the hash table, in the following format:
+
+"First index: <index>, Value: <value>"
+"Last index: <index>, Value: <value>"
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+table size = 10
+
+1 <= n <= 10
+
+1<= keys <= 106
+
+Sample test cases :
+Input 1 :
+6
+1024 1056 2045 3145 1210 3512
+Output 1 :
+First index: 0, Value: 1210
+Last index: 7, Value: 3145
+Input 2 :
+6
+1230 1123 1450 1256 1425 1520
+Output 2 :
+First index: 0, Value: 1230
+Last index: 6, Value: 1256
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;// You are using GCC
+void readKeys(int keys[], int numKeys) {
+    //Type your code here
+    for(int i=0; i<numKeys; i++){
+        cin>>keys[i];
+    }
+}
+
+void initializeHashTable(int hashTable[], int tableSize) {
+    //Type your code here
+    for(int i=0; i<tableSize; i++){
+        hashTable[i]=-1;
+    }
+}
+
+int  calHash(int key, int size){
+    return key%size;
+}
+
+void insertKeys(int hashTable[], int tableSize, int keys[], int numKeys) {
+    //Type your code here
+    for(int i=0; i<numKeys; i++){
+        int key =keys[i];
+     
+      int index = calHash(key,tableSize);
+      int j=0;
+      
+        while(hashTable[(index+j*j) % tableSize] !=-1){ 
+            j++;
+        }   
+        hashTable[(index+j*j) % tableSize] = key;
+        
+    }
+}
+
+void findFirstAndLast(int hashTable[], int tableSize, int& first, int& last, int& firstIndex, int& lastIndex) {
+    //Type your code here
+    first=-1;
+    last=-1;
+    firstIndex=-1;
+    lastIndex=-1;
+    
+for(int i=0; i<tableSize; i++){
+    if(hashTable[i] != -1){
+        if(firstIndex == -1){
+            first = hashTable[i];
+            firstIndex=i;
+        }
+        lastIndex=i;
+        last=hashTable[i];
+    }
+}
+}
+
+int main() {
+    const int tableSize = 10;
+    int numKeys;
+    cin >> numKeys;
+
+    int keys[numKeys];
+    readKeys(keys, numKeys);
+
+    int hashTable[tableSize];
+    initializeHashTable(hashTable, tableSize);
+
+    insertKeys(hashTable, tableSize, keys, numKeys);
+
+    int first, last, firstIndex, lastIndex;
+    findFirstAndLast(hashTable, tableSize, first, last, firstIndex, lastIndex);
+
+    if (first != -1 && last != -1) {
+        cout << "First index: " << firstIndex << ", Value: " << first << endl;
+        cout << "Last index: " << lastIndex << ", Value: " << last << endl;
+    }
+
+    return 0;
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Sharon is tasked with implementing a simple hash table using quadratic probing to handle collisions.
+
+
+
+The hash table will have a fixed size of 10, and she needs to read a set of integer keys from the user, hash them into the table using quadratic probing, and then display the contents of the hash table.
+
+
+
+Implement a hash function that calculates the hash index for each key using the modulo operation with the table size (10). The hash index should be calculated as follows: hashIndex = key % tableSize.
+
+Input format :
+The first line of input consists of an integer N, representing the number of keys to be inserted.
+
+The second line consists of N space-separated integers, each representing a key to be inserted into the hash table.
+
+Output format :
+The output prints the values that have been successfully inserted into the hash table. Print the results in the ascending order of their indices.
+
+Code constraints :
+table size = 10
+
+Sample test cases :
+Input 1 :
+5
+41 52 63 95 83
+Output 1 :
+41 52 63 83 95 
+Input 2 :
+6
+46 92 34 16 83 25 
+Output 2 :
+92 83 34 25 46 16 
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;// You are using GCC
+void readKeys(int keys[], int numKeys) {
+    //Type your code here
+    for(int i=0; i<numKeys; i++){
+    cin>>keys[i];
+    }
+}
+
+
+void initializeHashTable(int hashTable[], int tableSize) {
+    //Type your code here
+    for(int i=0; i<tableSize; i++){
+        hashTable[i]=-1;
+    }
+}
+
+int calHash(int key, int size){
+    return key%size;
+}
+
+void insertKey(int hashTable[], int tableSize, int key) {
+    //Type your code here
+    
+    
+    int Index = calHash(key,tableSize);
+    
+    int i=0; 
+    
+    while(hashTable[(Index+i*i) % tableSize] !=-1){
+        i++;
+    }
+    
+    // for(int i=0; iitn i=0;<tableSize; i++){
+    // int key = hashTable[i];
+    
+    // int index = calHash(key,tableSize);
+    
+    // while(hashTable[index]!= -1){
+    //     index = (index+1)%tableSize;
+    // }
+    
+    // hashTable[index]=key;
+    
+    hashTable[(Index+i*i)%tableSize] = key;
+}
+
+
+void printHashTable(int hashTable[], int tableSize) {
+    //Type your code here
+    for(int i=0; i<tableSize; i++){
+        if(hashTable[i] == -1){
+            continue;
+        }
+        cout<<hashTable[i]<<" ";
+    }
+}
+
+int main() {
+    const int tableSize = 10;
+    int numKeys;
+    cin >> numKeys;
+
+    int keys[numKeys];
+    readKeys(keys, numKeys);
+
+    int hashTable[tableSize];
+    initializeHashTable(hashTable, tableSize);
+
+    for (int i = 0; i < numKeys; i++) {
+        insertKey(hashTable, tableSize, keys[i]);
+    }
+
+    printHashTable(hashTable, tableSize);
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Rithika, an aspiring computer scientist, is diving into the world of hash functions and their practical applications. She recently learned about a hash function called 'Mid-Square Hashing'.
+
+
+
+Rithika is implementing the Mid-Square Hashing algorithm to store integer keys in a hash table. She's using linear probing to resolve collisions by finding the next available slot.
+
+
+
+Your task is to help her write the code and find the key with the highest value in the hash table, along with its index.
+
+
+
+Example
+
+
+
+Input: 
+
+6
+
+42 58 37 29 85 89
+
+Output: 
+
+Weight: 89, Index: 92
+
+
+
+Explanation
+
+
+
+A hash table of size 100 is initialized with all entries set to -1, representing an empty array. The Mid-Square Hashing algorithm is used to calculate hash indices for keys.
+
+Key 42 squared to 1764, and the middle digits (76) are used as its hash index.
+Key 58 resulted in a hash index of 36.
+Key 37 faced a collision and was stored at index 37 using linear probing.
+Key 29 had an index of 41.
+Key 85 also experienced a collision, which was resolved by placing it at index 42. The key with the maximum value, 89 (square value 92), was stored at index 92 after a linear search, demonstrating collision resolution for finding the maximum-weighted key.
+Input format :
+The first line of input consists of an integer, n, representing the number of integer keys to be stored in the hash table.
+
+The second line of input consists of n space-separated integers, where each integer key represents a unique key to be hashed and stored in the table.
+
+Output format :
+The output prints the value with the maximum weight with its index position.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+table size = 100
+
+10 <= key <= 100
+
+Sample test cases :
+Input 1 :
+5
+60 65 70 75 80
+Output 1 :
+Weight: 80, Index: 40
+Input 2 :
+6
+42 58 37 29 85 89
+Output 2 :
+Weight: 89, Index: 92
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+
+
+#include <iostream>
+using namespace std;// You are using GCC
+// int midSquareHash(int key, int tableSize) 
+// {
+//     //Type your code
+//     int squared=key*key;
+//     int middledigit = (squared/10)%100;
+//     return middledigit%tableSize;
+    
+// }
+
+int midSquareHash(int key, int tableSize){
+    int squared = key*key;
+    int middlenumber=(squared/10)%100;
+    
+    return middlenumber%tableSize;
+}
+
+
+int main() {
+    int tableSize = 100, in, max; 
+    int numKeys;   
+    cin >> numKeys;
+    int keys[numKeys];
+    for (int i = 0; i < numKeys; i++) {
+        cin >> keys[i];
+    }
+    int hashTable[tableSize];
+    for (int i = 0; i < tableSize; i++) {
+        hashTable[i] = -1;
+    }
+    for (int i = 0; i < numKeys; i++) {
+        int key = keys[i];
+        int hashIndex = midSquareHash(key, tableSize);
+        
+        while (hashTable[hashIndex] != -1) {
+            hashIndex = (hashIndex + 1) % tableSize;
+        }
+        hashTable[hashIndex] = key;
+    }
+    
+    max = hashTable[0];
+    in = 0;
+    for (int i = 1; i < tableSize; i++) {
+        if (hashTable[i] != -1 && hashTable[i] > max) {
+            max = hashTable[i];
+            in = i;
+        }
+    }
+    cout << "Weight: " << max << ", Index: " << in;
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement 
+
+
+
+Akil, a computer science student, is learning about hash tables and collision resolution techniques. He wants to implement a hash table with a size of 100 and use the mid-square hashing method to store a collection of keys. He's looking for a way to efficiently store these keys and resolve collisions using linear probing.
+
+
+
+Example
+
+Input 
+
+5
+
+80 65 40 60 98
+
+Output 
+
+Index 22: Key 65
+
+Index 40: Key 80
+
+Index 60: Key 40
+
+Index 61: Key 60
+
+Index 62: Key 98
+
+
+
+Explanation
+
+The mid-square hashing method is used to map each key to an index in a hash table of size 100.
+
+Collision occurs when two keys map to the same index. so linear probing is used to find the next available index.
+
+The final hash table stores the values as follows:
+
+Index 22: Key 65
+
+Index 40: Key 80 
+
+Index 60: Key 40 (collision resolved by linear probing)
+
+Index 61: Key 60 (collision resolved by linear probing)
+
+Index 62: Key 98 (collision resolved by linear probing)
+
+The output displays the index and the corresponding key values in the hash table after handling collisions.
+
+
+
+Note:
+
+The middle digits are found by dividing the key's square by 10 and then taking the remainder when divided by 100, then returning modulo to the table size (TABLE_SIZE).
+
+Input format :
+The first line of input consists of an integer, 'n', representing the number of keys Akil wants to store in the hash table.
+
+The second line of input consists of an integer 'key' representing the keys he wants to insert into the hash table.
+
+Output format :
+The output displays each line in the following format: "Index x: Key y" where 'x' is the index in the hash table and 'y' is the key.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The test cases will fall under the following constraints:
+
+
+
+hash table size = 100
+
+1 <= n<= 10
+
+10 <= key <= 100
+
+Sample test cases :
+Input 1 :
+5
+80 65 40 60 98
+Output 1 :
+Index 22: Key 65
+Index 40: Key 80
+Index 60: Key 40
+Index 61: Key 60
+Index 62: Key 98
+Note :
+The program will be evaluated only after the “Submit Code” is clicked.
+Extra spaces and new line characters in the program output will result in the failure of the test case.
+
+
+#include <iostream>
+using namespace std;
+#define TABLE_SIZE 100
+int hashTable[TABLE_SIZE];
+
+// You are using GCC
+void initializeHashTable() {
+    //Type your code
+    for(int i=0; i<TABLE_SIZE; i++){
+        hashTable[i]=-1;
+    }
+}
+
+int midSquareHash(int key) {
+    //Type your code
+    int squared = key*key;
+    int middle = (squared/10)%100;
+    
+    return middle%TABLE_SIZE;
+}
+
+int hashCol(int keys){
+    return keys%TABLE_SIZE;
+}
+
+
+int linearProbe(int index) {
+    //Type your code
+    for(int i=0; i<TABLE_SIZE; i++){
+    
+        
+        while(index != -1){
+            index = (index+1)%TABLE_SIZE;
+        }
+        
+       
+    }
+    return index;
+}
+
+
+
+
+int main() {
+    initializeHashTable();
+
+    int n, key;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> key;
+
+        int index = midSquareHash(key);
+
+        if (hashTable[index] == -1) {
+            hashTable[index] = key;
+        } else {
+            int newIndex = linearProbe(index);
+            hashTable[newIndex] = key;
+        }
+    }
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        if (hashTable[i] != -1) {
+            cout << "Index " << i << ": Key " << hashTable[i] << endl;
+        }
+    }
+
+    return 0;
+}
+
+
