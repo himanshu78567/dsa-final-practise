@@ -1,0 +1,71 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+
+
+class Queue{
+    private:
+     
+    int front;
+    int rear;
+    int *queue;   /////////
+    int capacity;
+    
+    public:
+    
+    Queue(int capacity){
+        front=0;
+        rear=-1;
+        this->capacity= capacity;
+        queue= new int[capacity];   ////////
+    }
+    
+    void enqueue(int data){
+        if(rear<capacity-1){
+            rear++;
+            queue[rear]=data;
+        }
+    }
+
+~Queue(){ 
+    delete [] queue;
+    
+}
+
+    int dequeue(){
+        if(front>rear){
+            cout<<"queue is empty";
+            return -1;
+        }
+        
+        int frontelement = queue[front++];
+        
+        if(front>rear){
+            front=0;
+            rear=-1;
+        }
+        
+        return frontelement;
+        
+    }
+    
+    
+};
+int main() {
+    // Write C++ code here
+   Queue q(7);
+   
+   
+    q.enqueue(9);
+    q.enqueue(5);
+    q.enqueue(6);
+    
+    cout<<q.dequeue();
+    cout<<q.dequeue();
+    cout<<q.dequeue();
+    
+    q.dequeue();
+    
+    
+    return 0;
+}
