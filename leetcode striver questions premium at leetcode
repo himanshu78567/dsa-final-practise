@@ -1,0 +1,214 @@
+##the celebrity problem
+
+The Celebrity Problem
+You are at a party with 
+𝑛
+n people labeled from 
+0
+0 to 
+𝑛
+−
+1
+n−1. A celebrity is defined as someone who is known by everyone but does not know anyone themselves.
+
+The goal is to identify the celebrity, if one exists.
+
+You are given a 2D matrix mat where mat[i][j] = 1 means person 
+𝑖
+i knows person 
+𝑗
+j, and mat[i][j] = 0 means person 
+𝑖
+i does not know person 
+𝑗
+j. A celebrity is represented by the index 
+𝑐
+c such that:
+
+𝑚
+𝑎
+𝑡
+[
+𝑐
+]
+[
+𝑖
+]
+=
+0
+mat[c][i]=0 for all 
+𝑖
+≠
+𝑐
+i
+
+=c (the celebrity does not know anyone).
+𝑚
+𝑎
+𝑡
+[
+𝑖
+]
+[
+𝑐
+]
+=
+1
+mat[i][c]=1 for all 
+𝑖
+≠
+𝑐
+i
+
+=c (everyone knows the celebrity).
+Write a function:
+
+cpp
+Copy code
+int findCelebrity(vector<vector<int>>& mat);
+Your function should return the index of the celebrity if one exists, or -1 if there is no celebrity.
+
+Constraints
+2
+≤
+𝑛
+≤
+100
+2≤n≤100 (number of people at the party).
+𝑚
+𝑎
+𝑡
+[
+𝑖
+]
+[
+𝑗
+]
+mat[i][j] is either 0 or 1.
+𝑚
+𝑎
+𝑡
+[
+𝑖
+]
+[
+𝑖
+]
+=
+0
+mat[i][i]=0 (a person cannot know themselves).
+Example 1
+Input:
+plaintext
+Copy code
+mat = [
+    [0, 1, 1],
+    [0, 0, 1],
+    [0, 0, 0]
+]
+Output:
+plaintext
+Copy code
+2
+Explanation:
+Person 2 is known by everyone (mat[0][2] = 1 and mat[1][2] = 1).
+Person 2 does not know anyone (mat[2][0] = 0 and mat[2][1] = 0).
+Example 2
+Input:
+plaintext
+Copy code
+mat = [
+    [0, 1],
+    [1, 0]
+]
+Output:
+plaintext
+Copy code
+-1
+Explanation:
+No person satisfies the celebrity condition.
+Example 3
+Input:
+plaintext
+Copy code
+mat = [
+    [0, 1, 0],
+    [0, 0, 0],
+    [0, 1, 0]
+]
+Output:
+plaintext
+Copy code
+1
+Explanation:
+Person 1 is known by everyone (mat[0][1] = 1 and mat[2][1] = 1).
+Person 1 does not know anyone (mat[1][0] = 0 and mat[1][2] = 0).
+Follow-up
+Optimize your solution to run in 
+𝑂
+(
+𝑛
+)
+O(n) time complexity by minimizing the number of calls to mat[i][j].
+
+Let me know if you need additional examples or clarifications!
+
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Solution{
+    public:
+        int findCelebrity(vector<vector<int>>&mat){
+    
+    int n = mat[0].size(); //size of row , here column is same as well
+    if(n==0) return -1;
+    int top=0,down=n-1;//down here is 3
+                                
+    while(top<down){  //till top or down crosses each other 
+        if(mat[top][down]==1){
+        top++;
+    }
+    
+    else{
+    // top--;   //I think top++
+        down--;
+    }
+    
+
+    if(top>down){
+        return -1;
+    }
+}   
+int candidate = top;//top is pointing to candidate tht can be celebrity after a few checks  
+for(int i=0; i<n; i++){
+    if(i != candidate){  
+        if(mat[candidate][i] == 1 || mat[i][candidate] == 0){
+            return -1;
+        }
+    }
+}
+return candidate;
+}
+};
+
+
+int main() {
+    vector<vector<int>> mat = {
+        {0, 1, 1},
+        {0, 0, 1},
+        {0, 0, 0}
+    };
+
+    Solution sol;
+    int celebrity = sol.findCelebrity(mat);
+
+    if (celebrity == -1) {
+        cout << "No celebrity found." << endl;
+    } else {
+        cout << "Celebrity found at index: " << celebrity << endl;
+    }
+
+    return 0;
+}
